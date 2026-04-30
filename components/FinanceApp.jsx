@@ -1,6 +1,8 @@
+'use client';
+
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useAuth } from './context/AuthContext';
-import { supabase } from './lib/supabase';
+import { useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabase';
 
 function formatBRL(n) {
   return `R$ ${Number(n).toFixed(2).replace('.', ',')}`;
@@ -20,7 +22,7 @@ export default function FinanceApp() {
   const [saving, setSaving] = useState(false);
 
   const loadTransactions = useCallback(async () => {
-    if (!user) return;
+    if (!user || !supabase) return;
     setListLoading(true);
     setListError(null);
     const { data, error } = await supabase
@@ -79,7 +81,7 @@ export default function FinanceApp() {
   };
 
   const addTransaction = async () => {
-    if (!amount || parseFloat(amount) <= 0 || !user) return;
+    if (!amount || parseFloat(amount) <= 0 || !user || !supabase) return;
     setSaving(true);
     setListError(null);
     const type = formType;
@@ -100,6 +102,7 @@ export default function FinanceApp() {
   };
 
   const deleteTransaction = async (id) => {
+    if (!supabase) return;
     setListError(null);
     const { error } = await supabase.from('transactions').delete().eq('id', id);
     if (error) {

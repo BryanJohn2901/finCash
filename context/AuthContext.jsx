@@ -1,5 +1,7 @@
+'use client';
+
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '@/lib/supabase';
 
 const AuthContext = createContext(null);
 
@@ -8,6 +10,11 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     let mounted = true;
 
     supabase.auth.getSession().then(({ data: { session: s } }) => {
@@ -31,16 +38,21 @@ export function AuthProvider({ children }) {
   }, []);
 
   const signIn = useCallback(async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    return { data, error };
+    if (!supabase) {
+      return { data: null, error: { message: 'Supabase não configurado.' } };
+    }
+    return supabase.auth.signInWithPassword({ email, password });
   }, []);
 
   const signUp = useCallback(async (email, password) => {
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    return { data, error };
+    if (!supabase) {
+      return { data: null, error: { message: 'Supabase não configurado.' } };
+    }
+    return supabase.auth.signUp({ email, password });
   }, []);
 
   const signOut = useCallback(async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
   }, []);
 

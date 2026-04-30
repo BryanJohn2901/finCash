@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 
 const linkStyle = {
@@ -18,7 +20,8 @@ export default function EnvMissing() {
           Falta configurar o Supabase na Vercel
         </h1>
         <p className="auth-sub" style={{ textAlign: 'left', lineHeight: 1.65 }}>
-          O front usa variáveis <code style={{ color: '#cbd5e1' }}>VITE_*</code> no <strong>momento do build</strong>.
+          O app Next.js usa <code style={{ color: '#cbd5e1' }}>NEXT_PUBLIC_*</code> no <strong>momento do build</strong>
+          (Vite usava <code style={{ color: '#94a3b8' }}>VITE_*</code> — na Vercel troque os nomes).
           Sem elas, o login não aparece — você está vendo esta tela em vez disso.
         </p>
 
@@ -93,14 +96,14 @@ export default function EnvMissing() {
             <strong style={{ color: '#f1f5f9' }}>Environment Variables</strong>.
           </li>
           <li>
-            Crie <strong style={{ color: '#86efac' }}>exatamente</strong> estes nomes (com prefixo{' '}
-            <code style={{ color: '#94a3b8' }}>VITE_</code>):
+            Crie <strong style={{ color: '#86efac' }}>exatamente</strong> estes nomes (prefixo{' '}
+            <code style={{ color: '#94a3b8' }}>NEXT_PUBLIC_</code>):
             <ul style={{ margin: '8px 0 0 0', paddingLeft: '1.2rem' }}>
               <li>
-                <code style={{ color: '#86efac' }}>VITE_SUPABASE_URL</code> → cole a Project URL
+                <code style={{ color: '#86efac' }}>NEXT_PUBLIC_SUPABASE_URL</code> → cole a Project URL
               </li>
               <li>
-                <code style={{ color: '#86efac' }}>VITE_SUPABASE_ANON_KEY</code> → cole a chave anon/publicável
+                <code style={{ color: '#86efac' }}>NEXT_PUBLIC_SUPABASE_ANON_KEY</code> → cole a chave anon/publicável
               </li>
             </ul>
           </li>

@@ -1,7 +1,9 @@
+'use client';
+
 import React from 'react';
-import { useAuth } from './context/AuthContext';
-import FinanceApp from './FinanceApp';
-import LoginPage from './LoginPage';
+import { useAuth } from '@/context/AuthContext';
+import FinanceApp from '@/components/FinanceApp';
+import LoginPage from '@/components/LoginPage';
 
 export default function App() {
   const { user, loading } = useAuth();
