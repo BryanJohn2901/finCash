@@ -3,6 +3,19 @@
 import React, { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 
+function formatAuthError(err) {
+  if (!err?.message) return 'Algo deu errado. Tente de novo.';
+  const msg = err.message;
+  if (/failed to fetch|networkerror|load failed|name_not_resolved/i.test(msg)) {
+    return (
+      'Não foi possível alcançar o Supabase (rede ou URL errada). ' +
+      'Abra o Supabase → Project Settings → API e copie o campo Project URL inteiro para NEXT_PUBLIC_SUPABASE_URL ' +
+      '(.env.local). Um único caractere errado no ID do projeto gera DNS inválido.'
+    );
+  }
+  return msg;
+}
+
 export default function LoginPage() {
   const { signIn, signUp } = useAuth();
   const [mode, setMode] = useState('login');
@@ -39,13 +52,13 @@ export default function LoginPage() {
       if (mode === 'login') {
         const { error: err } = await signIn(email.trim(), password);
         if (err) {
-          setError(err.message);
+          setError(formatAuthError(err));
           return;
         }
       } else {
         const { data, error: err } = await signUp(email.trim(), password);
         if (err) {
-          setError(err.message);
+          setError(formatAuthError(err));
           return;
         }
         if (data?.session) {
