@@ -1,12 +1,17 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = import.meta.env.VITE_SUPABASE_URL;
-const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const rawUrl = import.meta.env.VITE_SUPABASE_URL;
+const rawKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const url = typeof rawUrl === 'string' ? rawUrl.trim() : '';
+const key = typeof rawKey === 'string' ? rawKey.trim() : '';
 
-if (!url || !anonKey) {
+/** Só cria o client com URL e chave válidas; evita createClient('') que quebra o bundle inteiro. */
+export const isSupabaseConfigured = Boolean(url && key);
+
+if (!isSupabaseConfigured) {
   console.warn(
-    '[finCash] Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY no arquivo .env (veja .env.example).'
+    '[finCash] Defina VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY (Vercel: Environment Variables + Redeploy).'
   );
 }
 
-export const supabase = createClient(url ?? '', anonKey ?? '');
+export const supabase = isSupabaseConfigured ? createClient(url, key) : null;
