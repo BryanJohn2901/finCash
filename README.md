@@ -48,6 +48,6 @@ O app mostra uma tela de instruções se faltar configuração.
 
 ## Problemas comuns
 
-- **`ERR_NAME_NOT_RESOLVED` / Failed to fetch** ao logar: o `NEXT_PUBLIC_SUPABASE_URL` está errado. No Supabase use **só o valor do campo “Project URL”** em **Settings → API** (não monte a URL na mão a partir do ID; um caractere diferente quebra o DNS).
+- **`ERR_NAME_NOT_RESOLVED` / Failed to fetch** ao logar: o `NEXT_PUBLIC_SUPABASE_URL` está errado. No Supabase use **só o valor do campo “Project URL”** em **Settings → API** (copiar e colar; não montar na mão). **Um só caractere errado** no ID do projeto quebra o DNS — às vezes confunde-se **`i`** com **`l`** ou **`1`** no meio da string.
 - **Aviso de hidratação** no `body` com `cz-shortcut-listen`: costuma ser **extensão do navegador**; o layout usa `suppressHydrationWarning` para ignorar isso.
 - **“No user after sign in”** em `inspector.*.js`: em geral vem de **extensão** (ex.: inspeção), não do app.
